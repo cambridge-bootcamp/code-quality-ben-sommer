@@ -1,13 +1,13 @@
-import typing
 from typing import Union, Callable, TypeVar
 import math
 import inspect as inspect
-from typing import Union, TypeVar
+
 UnaryIntFunc = Callable[[int], int]
 BinaryIntFunc = Callable[[int, int], int]
 RPNToken = Union[int, BinaryIntFunc]
 
-N = TypeVar('N', int, float) # A numeric type allowed to be either an int or a float
+N = TypeVar("N", int, float)  # A numeric type allowed to be either an int or a float
+
 
 def add(a: N, b: N) -> N:
     """
@@ -16,39 +16,49 @@ def add(a: N, b: N) -> N:
     The return type will be the same as the call type. Mixing the argument types should
     be rejected by a type checker, but mypy will actually allow an int in place of a float.
     """
-    return a+b
+    return a + b
 
-def sub(a:int,b:int)->int:
-    return a-b
 
-def mul(a,b): return a*b;
+def sub(a: int, b: int) -> int:
+    return a - b
+
+
+def mul(a, b):
+    return a * b
+
 
 def div(a: int, b: int) -> float:
     return a / b
 
-def intdiv(a, b) -> int: return a//b
 
-def pow(a,b):
-    r=a**b
-    return(r)
+def intdiv(a, b) -> int:
+    return a // b
+
+
+def pow(a, b):
+    r = a**b
+    return r
+
 
 def gcd(a: int, b: int):
     """
     Calculates the greatest common divisor of two integers a and b.
     """
     while b:
-        a,b=b,a%b
+        a, b = b, a % b
     return abs(a)
+
 
 def lcm(a, b):
     """
     Calculates the least common multiple of two integers a and b.
     """
     # FIXME: why not just math.lcm?
-    if ((a == 0) or (b == 0)):
+    if (a == 0) or (b == 0):
         return 0  # LCM of any number and 0 is 0.
 
     return abs(a * b) // gcd(a, b)
+
 
 def fact(a: int) -> int:
     return math.factorial(a)
@@ -87,6 +97,7 @@ def rpn(tokens: list[RPNToken]) -> int:
 
     return stack[0]
 
+
 token_map: dict[str, RPNToken] = {
     "+": add,
     "-": sub,
@@ -94,13 +105,17 @@ token_map: dict[str, RPNToken] = {
     "/": div,
     "//": intdiv,
     "**": pow,
-    "gcd":gcd,"lcm":lcm,
+    "gcd": gcd,
+    "lcm": lcm,
     "!": fact,
 }
 
+
 def rpn_interpreter(input_str) -> int:
     token_strs: [str] = input_str.split(" ")
-    tokens: list[RPNToken] = [token_map[t] if t in token_map else int(t) for t in token_strs]
+    tokens: list[RPNToken] = [
+        token_map[t] if t in token_map else int(t) for t in token_strs
+    ]
     return rpn(tokens)
 
 
@@ -112,5 +127,7 @@ def main() -> None:
             print(f"  {rpn_str} = {rpn_interpreter(rpn_str)}", "\n")
         except ValueError:
             print("Invalid RPN input!")
-if __name__=="__main__":
+
+
+if __name__ == "__main__":
     main()

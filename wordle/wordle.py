@@ -1,10 +1,11 @@
 # Wordle clone to add pytypes to
 import random
 
+
 def select_word(word_list_path):
     """Selects a random 5-letter word from a file."""
     try:
-        with open(word_list_path, 'r') as f:
+        with open(word_list_path, "r") as f:
             words = [line.strip().upper() for line in f if len(line.strip()) == 5]
             if not words:
                 print("Word list is empty or contains no 5-letter words.")
@@ -33,7 +34,7 @@ def check_guess(guess, secret_word):
             secret_word_counts[char] -= 1
         else:
             # Placeholder for the second pass
-            result.append((char, "wrong")) # Default to 'wrong'
+            result.append((char, "wrong"))  # Default to 'wrong'
 
     # Second pass: check for 'misplaced' letters
     for i in range(len(guess)):
@@ -54,9 +55,9 @@ def display_result(result):
     # ANSI escape codes for colors
     colors = {
         "correct": "\033[92m",  # Green
-        "misplaced": "\033[93m", # Yellow
-        "wrong": "\033[90m",     # Grey
-        "end": "\033[0m"         # Reset
+        "misplaced": "\033[93m",  # Yellow
+        "wrong": "\033[90m",  # Grey
+        "end": "\033[0m",  # Reset
     }
     output = "  "
     for letter, state in result:
